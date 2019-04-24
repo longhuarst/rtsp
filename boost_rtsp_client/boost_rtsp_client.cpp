@@ -11,6 +11,8 @@
 #include <boost/regex.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
+
+#include <boost/thread/thread.hpp>
 class tcpclient{
 
 
@@ -1063,6 +1065,17 @@ int main()
     std::cout << "Hello World!\n"; 
 
 
+	for (int i = 0; i < 100; i++) {
+		if (i % 10 == 0)
+			printf("\33[3%dm", i / 10);
+		printf("%5d%%", i);
+		boost::thread::sleep(boost::get_system_time() + boost::posix_time::millisec(50));
+		printf("\33[6D");
+		fflush(stdout);
+	}
+	printf("\33[0m");
+
+	
 	boost::asio::io_service service_;
 
 	//tcpclient client("client", service_);
